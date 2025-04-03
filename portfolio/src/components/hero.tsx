@@ -77,48 +77,44 @@ export default function Hero() {
       });
   
       // Optimized text scramble effect
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      let interval: number | undefined;
-  
-      const textElement = textRef.current;
-      if (textElement) {
-        let iteration = 0;
-        const originalText = textElement.innerText;
-  
-        if (interval) { // Added conditional check
-          clearInterval(interval);
-        }
-  
-        interval = setInterval(() => {
-          textElement.innerText = originalText
-            .split("")
-            .map((letter, index) => {
-              if (index < iteration) {
-                return originalText[index];
-              }
-              return letters[Math.floor(Math.random() * 26)];
-            })
-            .join("");
-  
-          if (iteration >= originalText.length) {
-            if (interval) { // Added conditional check
-              clearInterval(interval);
-            }
-          }
-  
-          iteration += 1 / 3;
-        }, 30);
-      }
-    }, heroRef);
-  
-    return () => {
-      ctx.revert();
-      setIsAnimating(false);
-      if(interval){ //Added conditional check.
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let interval: number | undefined;
+
+    if (textRef.current) {
+      let iteration = 0;
+      const originalText = textRef.current.innerText;
+
+      if (interval) {
         clearInterval(interval);
       }
-    };
-  }, [isAnimating]);
+
+      interval = setInterval(() => {
+        if (textRef.current) {
+          textRef.current.innerText = originalText
+            .split("")
+            .map((letter, index) =>
+              index < iteration ? originalText[index] : letters[Math.floor(Math.random() * 26)]
+            )
+            .join("");
+
+          if (iteration >= originalText.length && interval) {
+            clearInterval(interval);
+          }
+
+          iteration += 1 / 3;
+        }
+      }, 30);
+    }
+  }, heroRef);
+
+  return () => {
+    ctx.revert();
+    setIsAnimating(false);
+    if (interval) {
+      clearInterval(interval);
+    }
+  };
+}, [isAnimating]);
 
   const handleDownloadCV = () => {
     // Create a link to download the CV
