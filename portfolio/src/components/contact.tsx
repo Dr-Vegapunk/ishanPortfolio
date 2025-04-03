@@ -102,7 +102,7 @@ export default function Contact() {
           <div className="contact-info">
             <h3 className="mb-6 text-2xl font-bold">Contact Information</h3>
             <p className="mb-8 text-gray-300">
-              Feel free to reach out to me for any inquiries or opportunities. I'm always open to discussing new
+              Feel free to reach out to me for any inquiries or opportunities. I&apos;m always open to discussing new
               projects, creative ideas, or opportunities to be part of your vision.
             </p>
 

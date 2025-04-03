@@ -73,7 +73,7 @@ export default function About() {
           >
             <p className="mb-6 text-lg text-gray-300">
               I'm a passionate MERN stack developer with a strong foundation in web development. Currently pursuing my
-              Bachelor's degree from ISMT College (University of Sunderland), I'm also enhancing my skills through a
+              Bachelor&apos;s degree from ISMT College (University of Sunderland), I&apos;m also enhancing my skills through a
               MERN Stack course at Broadway Institution.
             </p>
             <p className="mb-6 text-lg text-gray-300">
@@ -82,7 +82,7 @@ export default function About() {
               craft.
             </p>
             <p className="mb-6 text-lg text-gray-300">
-              When I'm not coding, I'm exploring new technologies, contributing to open-source projects, or expanding my
+              When I&apos;m not coding, I'm exploring new technologies, contributing to open-source projects, or expanding my
               knowledge in web development.
             </p>
 

@@ -111,7 +111,7 @@ export default function Hero() {
       ctx.revert()
       setIsAnimating(false)
     }
-  }, [])
+  }, [isAnimating])
 
   const handleDownloadCV = () => {
     // Create a link to download the CV
@@ -135,14 +135,14 @@ export default function Hero() {
 
       <div className="container relative z-10 mx-auto px-4 py-16 text-center md:py-32">
         <h1 className="hero-title mb-4 text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
-          Hi, I'm{" "}
+          Hi, I&apos;m{" "}
           <span className="text-emerald-500" ref={textRef}>
             ISHAN KARKI
           </span>
         </h1>
         <h2 className="hero-subtitle mb-6 text-xl font-medium text-gray-300 md:text-2xl">MERN Stack Developer</h2>
         <p className="hero-description mx-auto mb-8 max-w-2xl text-gray-400">
-          An aspiring IT enthusiast from Kathmandu, Nepal. I'm eagerly seeking internship opportunities to apply and
+          An aspiring IT enthusiast from Kathmandu, Nepal. I&apos;m eagerly seeking internship opportunities to apply and
           expand my skills in web development.
         </p>
         <div className="mb-12 flex flex-wrap justify-center gap-4">
