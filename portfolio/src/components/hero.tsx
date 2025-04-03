@@ -11,13 +11,13 @@ export default function Hero() {
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
-    if (isAnimating) return
-
-    setIsAnimating(true)
+    if (isAnimating) return;
+  
+    setIsAnimating(true);
     const ctx = gsap.context(() => {
       // Simplified animation timeline for better performance
-      const tl = gsap.timeline()
-
+      const tl = gsap.timeline();
+  
       tl.from(".hero-title", {
         y: 50,
         opacity: 0,
@@ -32,7 +32,7 @@ export default function Hero() {
             duration: 0.6,
             ease: "power3.out",
           },
-          "-=0.3",
+          "-=0.3"
         )
         .from(
           ".hero-description",
@@ -42,7 +42,7 @@ export default function Hero() {
             duration: 0.6,
             ease: "power3.out",
           },
-          "-=0.3",
+          "-=0.3"
         )
         .from(
           ".hero-button",
@@ -53,7 +53,7 @@ export default function Hero() {
             ease: "power3.out",
             stagger: 0.1,
           },
-          "-=0.3",
+          "-=0.3"
         )
         .from(
           ".hero-social",
@@ -64,9 +64,9 @@ export default function Hero() {
             ease: "power3.out",
             stagger: 0.1,
           },
-          "-=0.2",
-        )
-
+          "-=0.2"
+        );
+  
       // Simplified floating animation
       gsap.to(".scroll-indicator", {
         y: 10,
@@ -74,44 +74,51 @@ export default function Hero() {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-      })
-
+      });
+  
       // Optimized text scramble effect
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-      let interval = null
-
-      const textElement = textRef.current
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let interval: number | undefined;
+  
+      const textElement = textRef.current;
       if (textElement) {
-        let iteration = 0
-        const originalText = textElement.innerText
-
-        clearInterval(interval)
-
+        let iteration = 0;
+        const originalText = textElement.innerText;
+  
+        if (interval) { // Added conditional check
+          clearInterval(interval);
+        }
+  
         interval = setInterval(() => {
           textElement.innerText = originalText
             .split("")
             .map((letter, index) => {
               if (index < iteration) {
-                return originalText[index]
+                return originalText[index];
               }
-              return letters[Math.floor(Math.random() * 26)]
+              return letters[Math.floor(Math.random() * 26)];
             })
-            .join("")
-
+            .join("");
+  
           if (iteration >= originalText.length) {
-            clearInterval(interval)
+            if (interval) { // Added conditional check
+              clearInterval(interval);
+            }
           }
-
-          iteration += 1 / 3
-        }, 30)
+  
+          iteration += 1 / 3;
+        }, 30);
       }
-    }, heroRef)
-
+    }, heroRef);
+  
     return () => {
-      ctx.revert()
-      setIsAnimating(false)
-    }
-  }, [isAnimating])
+      ctx.revert();
+      setIsAnimating(false);
+      if(interval){ //Added conditional check.
+        clearInterval(interval);
+      }
+    };
+  }, [isAnimating]);
 
   const handleDownloadCV = () => {
     // Create a link to download the CV
