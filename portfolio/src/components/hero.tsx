@@ -1,73 +1,30 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { gsap } from "gsap"
-import { Button } from "@/components/ui/button"
-import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react"
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { Button } from "@/components/ui/button";
+import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react";
 
 export default function Hero() {
-  const heroRef = useRef(null)
-  const textRef = useRef(null)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const heroRef = useRef<HTMLElement | null>(null); // ✅ Typed Ref
+  const textRef = useRef<HTMLSpanElement | null>(null); // ✅ Typed Ref
+  const isAnimating = useRef(false);
+  const intervalRef = useRef<number | null>(null); // ✅ Store interval in ref
 
   useEffect(() => {
-    if (isAnimating) return;
-  
-    setIsAnimating(true);
+    if (isAnimating.current) return;
+
+    isAnimating.current = true;
+
     const ctx = gsap.context(() => {
-      // Simplified animation timeline for better performance
       const tl = gsap.timeline();
-  
-      tl.from(".hero-title", {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      })
-        .from(
-          ".hero-subtitle",
-          {
-            y: 30,
-            opacity: 0,
-            duration: 0.6,
-            ease: "power3.out",
-          },
-          "-=0.3"
-        )
-        .from(
-          ".hero-description",
-          {
-            y: 20,
-            opacity: 0,
-            duration: 0.6,
-            ease: "power3.out",
-          },
-          "-=0.3"
-        )
-        .from(
-          ".hero-button",
-          {
-            y: 20,
-            opacity: 0,
-            duration: 0.4,
-            ease: "power3.out",
-            stagger: 0.1,
-          },
-          "-=0.3"
-        )
-        .from(
-          ".hero-social",
-          {
-            x: -10,
-            opacity: 0,
-            duration: 0.4,
-            ease: "power3.out",
-            stagger: 0.1,
-          },
-          "-=0.2"
-        );
-  
-      // Simplified floating animation
+
+      tl.from(".hero-title", { y: 50, opacity: 0, duration: 0.8, ease: "power3.out" })
+        .from(".hero-subtitle", { y: 30, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.3")
+        .from(".hero-description", { y: 20, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.3")
+        .from(".hero-button", { y: 20, opacity: 0, duration: 0.4, ease: "power3.out", stagger: 0.1 }, "-=0.3")
+        .from(".hero-social", { x: -10, opacity: 0, duration: 0.4, ease: "power3.out", stagger: 0.1 }, "-=0.2");
+
       gsap.to(".scroll-indicator", {
         y: 10,
         duration: 1.5,
@@ -75,56 +32,55 @@ export default function Hero() {
         yoyo: true,
         ease: "sine.inOut",
       });
-  
-      // Optimized text scramble effect
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let interval: number | undefined;
 
-    if (textRef.current) {
-      let iteration = 0;
-      const originalText = textRef.current.innerText;
+      // ✅ Optimized text scramble effect
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      if (textRef.current) {
+        let iteration = 0;
+        const originalText = textRef.current.innerText;
 
-      if (interval) {
-        clearInterval(interval);
-      }
-
-      interval = setInterval(() => {
-        if (textRef.current) {
-          textRef.current.innerText = originalText
-            .split("")
-            .map((letter, index) =>
-              index < iteration ? originalText[index] : letters[Math.floor(Math.random() * 26)]
-            )
-            .join("");
-
-          if (iteration >= originalText.length && interval) {
-            clearInterval(interval);
-          }
-
-          iteration += 1 / 3;
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
         }
-      }, 30);
-    }
-  }, heroRef);
 
-  return () => {
-    ctx.revert();
-    setIsAnimating(false);
-    if (interval) {
-      clearInterval(interval);
-    }
-  };
-}, [isAnimating]);
+        intervalRef.current = window.setInterval(() => {
+          if (textRef.current) {
+            textRef.current.innerText = originalText
+              .split("")
+              .map((letter, index) =>
+                index < iteration ? originalText[index] : letters[Math.floor(Math.random() * 26)]
+              )
+              .join("");
+
+            if (iteration >= originalText.length && intervalRef.current) {
+              clearInterval(intervalRef.current);
+              intervalRef.current = null;
+            }
+
+            iteration += 1 / 3;
+          }
+        }, 30);
+      }
+    }, heroRef);
+
+    return () => {
+      ctx.revert();
+      
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, []);
 
   const handleDownloadCV = () => {
-    // Create a link to download the CV
-    const link = document.createElement("a")
-    link.href = "/Ishan_Karki_CV_.pdf" // Path to your CV file in the public folder
-    link.download = "Ishan_Karki_CV_.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
+    const link = document.createElement("a");
+    link.href = "/Ishan_Karki_CV_.pdf"; // Path to your CV file in the public folder
+    link.download = "Ishan_Karki_CV_.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <section
@@ -202,6 +158,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
