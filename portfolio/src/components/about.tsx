@@ -72,7 +72,7 @@ export default function About() {
             style={{ opacity: 0, transform: "translateY(50px)" }}
           >
             <p className="mb-6 text-lg text-gray-300">
-              I'm a passionate MERN stack developer with a strong foundation in web development. Currently pursuing my
+              I'm a passionate MERN stack developer with a strong foundation in web development. I have completed my
               Bachelor&apos;s degree from ISMT College (University of Sunderland), I&apos;m also enhancing my skills through a
               MERN Stack course at Broadway Institution.
             </p>
